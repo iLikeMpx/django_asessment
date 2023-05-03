@@ -47,6 +47,16 @@
                     <div class="card mt-1">
                         <div class="card-header"><h5>Lesson {{lesson.order|add:1}}: {{lesson.title}}</h5></div>
                         <div class="card-body">{{lesson.content}}</div>
+                        {% if user.is_authenticated %}
+                            <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+                                Start Exam
+                            </button>
+                            <div class="collapse" id="collapseExample">
+                                <div class="card card-body">
+                                Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident.
+                                </div>
+                            </div>
+                        {% endif %}
                     </div>
                 {% endfor %}
             </div>
@@ -62,9 +72,27 @@
                 </div>
 
             -->
-
+            
             <!-- <HINT> If user is authenticated, show course exam with a list of question -->
-
+            {% if user.is_authenticated %}
+                {% for lesson in course.lesson_set.all %}
+                    <div id="exam" class="collapse">
+                        test
+                    </div>
+                {% endfor %}
+            {% else %}
+            <li>
+                <form class="form-inline" action="{% url 'onlinecourse:login' %}" method="post">
+                    {% csrf_token %}
+                    <div class="input-group">
+                        <input type="text" class="form-control" placeholder="Username" name="username" >
+                        <input type="password" class="form-control" placeholder="Username" name="psw" >
+                        <button class="btn btn-primary" type="submit">Login</button>
+                        <a class="btn btn-link" href="{% url 'onlinecourse:registration' %}">Sign Up</a>
+                    </div>
+                </form>
+            </li>
+            {% endif %}
             <!-- <HINT> Each example will have many questions -->
 
             <!-- <HINT> Each question will have many choices -->
@@ -97,6 +125,7 @@
 
             <!--Check here to see more details Bootstrap checkbox
              https://www.w3schools.com/bootstrap4/bootstrap_forms_inputs.asp-->
+            
     </div>
 </body>
 </html>
